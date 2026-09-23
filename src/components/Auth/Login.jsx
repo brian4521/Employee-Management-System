@@ -46,7 +46,7 @@ const Login = () => {
           />
           <button
             type="submit"
-            className="text-black mt-4 outline-none bg-gray-600 rounded-full py-3 px-5"
+            className="text-white mt-4 outline-none bg-gray-600 rounded-full py-3 px-5"
           >
             Log in
           </button>
