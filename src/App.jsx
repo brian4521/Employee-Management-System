@@ -6,6 +6,9 @@ import { getLocalStorage, setLocalStorage } from "./utils/localStorage";
 import { AuthContext } from "./context/AuthProvider";
 const App = () => {
   const [user, setuser] = useState(null);
+  const [isUserLoggedIn, setisUserLoggedIn] = useState();
+
+  console.log("this is from app data", isUserLoggedIn);
 
   const authData = useContext(AuthContext);
   console.log("this is authData", authData);
@@ -24,16 +27,19 @@ const App = () => {
     if (email == "admin@gmail.com" && password == "123") {
       setuser("admin");
       localStorage.setItem("loggedInUser", JSON.stringify({ role: "admin" }));
-      console.log("Its admin");
-    } else if (
-      authData &&
-      authData.employees.find((e) => email == e.email && password == e.password)
-    ) {
-      setuser("employee");
-      localStorage.setItem(
-        "loggedInUser",
-        JSON.stringify({ role: "employee" }),
+    } else if (authData) {
+      const employee = authData.employees.find(
+        (e) => email == e.email && password == e.password,
       );
+      if (employee) {
+        setuser("employee");
+        setisUserLoggedIn(employee);
+        localStorage.setItem(
+          "loggedInUser",
+          JSON.stringify({ role: "employee" }),
+        );
+      }
+
       console.log("Its employee");
     } else {
       alert("invalid data");
@@ -43,7 +49,11 @@ const App = () => {
   return (
     <>
       {!user ? <Login handleLogin={handleLogin} /> : ""}
-      {user == "admin" ? <AdminDashboard /> : <EmployeeDashboard />}
+      {user == "admin" ? (
+        <AdminDashboard />
+      ) : user == "employee" ? (
+        <EmployeeDashboard data={isUserLoggedIn} />
+      ) : null}
 
       {/* <EmployeeDashboard /> */}
       {/* <AdminDashboard /> */}
