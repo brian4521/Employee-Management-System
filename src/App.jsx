@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { use, useContext, useEffect, useState } from "react";
 import Login from "./components/Auth/Login";
 import EmployeeDashboard from "./components/Dashboard/EmployeeDashboard";
 import AdminDashboard from "./components/Dashboard/AdminDashboard";
@@ -14,14 +14,14 @@ const App = () => {
   console.log("this is authData", authData);
 
   useEffect(() => {
-    localStorage.setItem;
-    if (authData) {
-      const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
-      if (loggedInUser) {
-        setuser(loggedInUser.role);
-      }
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    if (loggedInUser) {
+      const userData = JSON.parse(loggedInUser);
+      setuser(userData.role);
+      setisUserLoggedIn(userData.data);
+      console.log(userData);
     }
-  }, [authData]);
+  }, []);
 
   const handleLogin = (email, password) => {
     if (email == "admin@gmail.com" && password == "123") {
@@ -36,7 +36,7 @@ const App = () => {
         setisUserLoggedIn(employee);
         localStorage.setItem(
           "loggedInUser",
-          JSON.stringify({ role: "employee" }),
+          JSON.stringify({ role: "employee", data: employee }),
         );
       }
 
