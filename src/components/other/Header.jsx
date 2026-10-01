@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Header = () => {
+const Header = (props) => {
   // console.log("this is header data", data);
 
   // const [userName, setuserName] = useState("");
@@ -11,8 +11,11 @@ const Header = () => {
   // }
   function logoutUser() {
     localStorage.setItem("loggedInUser", "");
-    window.location.reload();
+    props.changeUser("");
+    // window.location.reload();
   }
+
+  //here window.location was causing the website to reload so to avoid it we pass setuser from app then changed it
   return (
     <div className="flex items-end justify-between text-white">
       <h1 className="text-2xl">
