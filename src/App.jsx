@@ -10,8 +10,10 @@ const App = () => {
 
   console.log("this is from app data", isUserLoggedIn);
 
-  const authData = useContext(AuthContext);
-  console.log("this is authData", authData);
+  const [userData, setUserData] = useContext(AuthContext);
+
+  const authData = userData;
+  // console.log("this is authData", authData);
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("loggedInUser");
@@ -28,7 +30,7 @@ const App = () => {
       setuser("admin");
       localStorage.setItem("loggedInUser", JSON.stringify({ role: "admin" }));
     } else if (authData) {
-      const employee = authData.employees.find(
+      const employee = authData.find(
         (e) => email == e.email && password == e.password,
       );
       if (employee) {
